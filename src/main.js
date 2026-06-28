@@ -1,60 +1,73 @@
-import './style.css'
-import javascriptLogo from './assets/javascript.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import { setupCounter } from './counter.js'
+import "./styles/globals.css";
+import "./styles/intro.css";
+import "./styles/sidebar.css";
+import "./styles/hero.css";
+import "./styles/netflix.css";
+import "./styles/fx.css";
 
-document.querySelector('#app').innerHTML = `
-<section id="center">
-  <div class="hero">
-    <img src="${heroImg}" class="base" width="170" height="179">
-    <img src="${javascriptLogo}" class="framework" alt="JavaScript logo"/>
-    <img src="${viteLogo}" class="vite" alt="Vite logo" />
-  </div>
-  <div>
-    <h1>Get started</h1>
-    <p>Edit <code>src/main.js</code> and save to test <code>HMR</code></p>
-  </div>
-  <button id="counter" type="button" class="counter"></button>
-</section>
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-<div class="ticks"></div>
+import Intro from "./components/Intro.js";
+import Sidebar from "./components/Sidebar.js";
+import Navbar from "./components/Navbar.js";
+import Home from "./pages/Home.js";
 
-<section id="next-steps">
-  <div id="docs">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#documentation-icon"></use></svg>
-    <h2>Documentation</h2>
-    <p>Your questions, answered</p>
-    <ul>
-      <li>
-        <a href="https://vite.dev/" target="_blank">
-          <img class="logo" src="${viteLogo}" alt="" />
-          Explore Vite
-        </a>
-      </li>
-      <li>
-        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-          <img class="button-icon" src="${javascriptLogo}" alt="">
-          Learn more
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div id="social">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#social-icon"></use></svg>
-    <h2>Connect with us</h2>
-    <p>Join the Vite community</p>
-    <ul>
-      <li><a href="https://github.com/vitejs/vite" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#github-icon"></use></svg>GitHub</a></li>
-      <li><a href="https://chat.vite.dev/" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#discord-icon"></use></svg>Discord</a></li>
-      <li><a href="https://x.com/vite_js" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#x-icon"></use></svg>X.com</a></li>
-      <li><a href="https://bsky.app/profile/vite.dev" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#bluesky-icon"></use></svg>Bluesky</a></li>
-    </ul>
-  </div>
-</section>
+import { initParticles } from "./animations/particles.js";
+import { initSmoothScroll, initScrollReveals } from "./animations/scroll.js";
+import { initParallax } from "./animations/parallax.js";
+import { initIntro, playHeroIntro } from "./animations/intro.js";
+import { initCursor } from "./animations/cursor.js";
+import { initSound } from "./animations/sound.js";
+import { initAmbientWorld } from "./animations/ambient.js";
+import { initContactSpell } from "./animations/contactSpell.js";
+import { initInteractions } from "./utils/interactions.js";
 
-<div class="ticks"></div>
-<section id="spacer"></section>
-`
+/* ---------- Render the application shell ---------- */
+const app = document.querySelector("#app");
+app.innerHTML = `
+  ${Intro()}
+  ${Sidebar()}
+  ${Navbar()}
+  ${Home()}
+`;
 
-setupCounter(document.querySelector('#counter'))
+/* ---------- Boot sequence ---------- */
+function boot() {
+  // Ambient three.js particle field (degrades gracefully without WebGL)
+  try { initParticles("particles-canvas"); } catch (e) { console.warn(e); }
+
+  // Procedural flying silhouettes (wizards, owls, dragons, airships…)
+  try { initAmbientWorld(); } catch (e) { console.warn(e); }
+
+  // Smooth scrolling + scroll-driven reveals
+  const lenis = initSmoothScroll();
+  initScrollReveals();
+
+  // Hero mouse parallax
+  initParallax();
+
+  // Navigation, scroll-spy, episode arrows, form, etc.
+  initInteractions(lenis);
+
+  // Premium FX: custom cursor, ambient sound, magical contact particles
+  initCursor();
+  initSound();
+  initContactSpell(document.getElementById("contact-spell"));
+
+  // Make sure ScrollTrigger measures the final layout
+  ScrollTrigger.refresh();
+
+  // Cinematic intro → then play the hero entrance
+  initIntro().then(() => {
+    playHeroIntro();
+    ScrollTrigger.refresh();
+  });
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", boot, { once: true });
+} else {
+  boot();
+}
+
+window.addEventListener("load", () => ScrollTrigger.refresh());

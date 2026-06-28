@@ -1,0 +1,195 @@
+/* ============================================================
+   DeepVerse — FX layer: custom cursor, ravens, volumetric light,
+   sound toggle, magical contact particles
+   ============================================================ */
+
+/* ---------- Custom cursor ---------- */
+@media (hover: hover) and (pointer: fine) {
+  body { cursor: none; }
+  a, button, .ecard, input, textarea, [data-nav] { cursor: none; }
+
+  .cursor {
+    position: fixed;
+    top: 0; left: 0;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--gold-200);
+    box-shadow: 0 0 12px var(--gold-glow);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 99999;
+    mix-blend-mode: screen;
+  }
+  .cursor-ring {
+    position: fixed;
+    top: 0; left: 0;
+    width: 40px; height: 40px;
+    border: 1px solid rgba(229, 181, 74, 0.6);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 99998;
+    transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease, opacity 0.25s ease;
+  }
+  .cursor-ring.is-hot { width: 64px; height: 64px; border-color: var(--gold-200); background: rgba(229,181,74,0.06); }
+}
+
+/* ---------- Volumetric god-rays in hero ---------- */
+.hero__rays {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    conic-gradient(from 200deg at 78% 20%,
+      transparent 0deg,
+      rgba(246, 231, 184, 0.10) 12deg,
+      transparent 24deg,
+      rgba(246, 231, 184, 0.07) 36deg,
+      transparent 50deg);
+  filter: blur(6px);
+  mix-blend-mode: screen;
+  opacity: 0.7;
+  animation: ray-sway 14s ease-in-out infinite alternate;
+}
+@keyframes ray-sway { from { transform: rotate(-3deg) scale(1.05); } to { transform: rotate(3deg) scale(1.1); } }
+
+/* ---------- Ravens ---------- */
+.ravens { position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
+.raven {
+  position: absolute;
+  width: 34px;
+  color: #05060a;
+  opacity: 0.9;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));
+  animation: raven-fly linear infinite;
+}
+.raven svg { width: 100%; display: block; }
+.raven .wing { transform-origin: 50% 50%; animation: flap 0.5s ease-in-out infinite; }
+@keyframes flap { 0%,100% { transform: scaleY(1); } 50% { transform: scaleY(0.4) translateY(2px); } }
+@keyframes raven-fly {
+  0% { transform: translate(-12vw, 30vh) scale(0.6); }
+  100% { transform: translate(118vw, 8vh) scale(1); }
+}
+
+/* ---------- Sound control cluster ---------- */
+.sound-cluster { position: fixed; right: 22px; bottom: 22px; z-index: 700; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+.sound-toggle {
+  width: 50px; height: 50px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: rgba(8, 10, 20, 0.7);
+  backdrop-filter: blur(10px);
+  display: grid; place-items: center;
+  color: var(--gold-200);
+  transition: transform 0.3s var(--ease-cine), border-color 0.3s ease;
+}
+.sound-toggle:hover { transform: scale(1.08); border-color: var(--gold-300); }
+.sound-toggle .bars { display: flex; align-items: flex-end; gap: 3px; height: 18px; }
+.sound-toggle .bars i {
+  width: 3px; height: 6px; background: var(--gold-200); border-radius: 2px;
+  animation: eq 0.9s ease-in-out infinite; animation-play-state: paused;
+}
+.sound-toggle .bars i:nth-child(2){ animation-delay: .15s } .sound-toggle .bars i:nth-child(3){ animation-delay: .3s } .sound-toggle .bars i:nth-child(4){ animation-delay: .45s }
+.sound-toggle.is-on .bars i { animation-play-state: running; }
+@keyframes eq { 0%,100%{height:5px} 50%{height:17px} }
+.sound-panel {
+  display: flex; flex-direction: column; gap: 8px; width: 180px; padding: 12px 14px;
+  border: 1px solid var(--line); border-radius: 14px; background: rgba(8,10,20,.82);
+  backdrop-filter: blur(12px); opacity: 0; transform: translateY(8px) scale(.96);
+  pointer-events: none; transition: opacity .25s ease, transform .25s var(--ease-cine);
+}
+.sound-cluster.is-open .sound-panel { opacity: 1; transform: none; pointer-events: auto; }
+.sound-panel .sp-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 12px; color: var(--gold-200); letter-spacing: .04em; }
+.sound-panel input[type=range] { width: 90px; accent-color: var(--gold-300); }
+.sound-panel input[type=checkbox] { accent-color: var(--gold-300); }
+@media (max-width: 880px) { .sound-cluster { bottom: 90px; } }
+
+/* ---------- Contact magical canvas ---------- */
+.contact { position: relative; }
+.contact__spell {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 0; opacity: 0.8;
+}
+.contact > * { position: relative; z-index: 1; }
+
+/* ---------- Page transition curtain ---------- */
+.curtain {
+  position: fixed; inset: 0; z-index: 9000; pointer-events: none;
+  background: radial-gradient(60% 60% at 50% 40%, #0a0d1c, #04050a);
+  opacity: 0; transform: translateY(100%);
+}
+
+/* ---------- Ambient flying silhouettes (layered, multi-direction) ---------- */
+.ambient-world {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.aw-layer { position: absolute; inset: 0; will-change: transform; }
+.aw-bg { z-index: -1; filter: blur(1px); }      /* far: behind content */
+.aw-mid { z-index: 0; }                          /* between content */
+.aw-fg { z-index: 6; }                           /* close to camera */
+.aw {
+  position: absolute;
+  color: rgba(8, 11, 22, 0.78);
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.5));
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.aw svg { width: 100%; height: auto; }
+.aw--owl, .aw--book, .aw--raven, .aw--deer, .aw--traveller, .aw--train { color: rgba(6, 9, 18, 0.72); }
+.aw--lantern { color: rgba(255, 210, 122, 0.9); filter: drop-shadow(0 0 12px rgba(229,181,74,.7)); }
+.aw--butterfly { color: rgba(245, 210, 122, 0.85); filter: drop-shadow(0 0 8px rgba(229,181,74,.6)); }
+.aw--phoenix { color: rgba(255, 150, 80, 0.8); filter: drop-shadow(0 0 16px rgba(255,140,60,.6)); }
+.aw--dragon, .aw--airship, .aw--island, .aw--whale { color: rgba(10, 13, 26, 0.5); }
+.aw--rider { color: rgba(120, 180, 255, 0.85); filter: drop-shadow(0 0 16px rgba(80,140,255,.8)); }
+.aw--spirit { color: rgba(150, 210, 255, 0.7); filter: drop-shadow(0 0 14px rgba(120,180,255,.7)); }
+.aw--rune { color: rgba(170, 130, 255, 0.85); filter: drop-shadow(0 0 12px rgba(150,110,255,.8)); }
+.aw--fish { color: rgba(130, 200, 230, 0.75); filter: drop-shadow(0 0 10px rgba(120,200,255,.6)); }
+.aw--fog { opacity: .35 !important; filter: blur(4px); }
+.aw-wing { transform-origin: center; animation: awWing 0.32s ease-in-out infinite; }
+@keyframes awWing { 0%,100% { transform: scaleY(1); } 50% { transform: scaleY(0.45); } }
+
+.aw--ltr { left: -18vw; animation: awLTR var(--dur, 6s) linear forwards; }
+.aw--rtl { left: 118vw; animation: awRTL var(--dur, 6s) linear forwards; }
+.aw--ttb { top: -18vh; animation: awTTB var(--dur, 6s) linear forwards; }
+.aw--diag { left: -18vw; top: -12vh; animation: awDIAG var(--dur, 6s) linear forwards; }
+.aw--diagU { left: -18vw; top: 80%; animation: awDIAGU var(--dur, 6s) linear forwards; }
+@keyframes awLTR { 0%{transform:translateX(0) translateY(0)} 8%,88%{opacity:.85} 100%{transform:translateX(140vw) translateY(var(--mv,0)); opacity:0} }
+@keyframes awRTL { 0%{transform:translateX(0) translateY(0) scaleX(-1)} 8%,88%{opacity:.85} 100%{transform:translateX(-140vw) translateY(var(--mv,0)) scaleX(-1); opacity:0} }
+@keyframes awTTB { 0%{transform:translateY(0)} 8%,88%{opacity:.85} 100%{transform:translateY(140vh); opacity:0} }
+@keyframes awDIAG { 0%{transform:translate(0,0)} 8%,88%{opacity:.85} 100%{transform:translate(140vw,120vh); opacity:0} }
+@keyframes awDIAGU { 0%{transform:translate(0,0)} 8%,88%{opacity:.85} 100%{transform:translate(140vw,-110vh); opacity:0} }
+
+.aw-star {
+  position: absolute;
+  width: 3px; height: 3px; border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 8px 2px rgba(255,255,255,.9);
+  animation: awShoot var(--dur, 1.4s) ease-in forwards;
+}
+.aw-star::after {
+  content: ""; position: absolute; top: 50%; right: 0;
+  width: 130px; height: 1px;
+  background: linear-gradient(90deg, rgba(255,255,255,.9), transparent);
+}
+@keyframes awShoot {
+  0% { transform: translate(0,0) rotate(18deg); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translate(-60vw, 40vh) rotate(18deg); opacity: 0; }
+}
+.aw-portal {
+  position: absolute; width: 120px; height: 120px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(110,168,255,.5), rgba(180,120,255,.25) 50%, transparent 70%);
+  box-shadow: 0 0 60px 20px rgba(110,168,255,.3);
+  transform: scale(0); animation: awPortal 3.6s ease-in-out forwards;
+}
+@keyframes awPortal { 0%{transform:scale(0) rotate(0)} 25%{transform:scale(1) rotate(180deg)} 75%{transform:scale(1) rotate(540deg)} 100%{transform:scale(0) rotate(720deg)} }
+.aw-flash {
+  position: absolute; inset: 0; background: rgba(200,220,255,.5);
+  animation: awFlash .7s ease-out forwards;
+}
+@keyframes awFlash { 0%{opacity:0} 8%{opacity:.7} 16%{opacity:.1} 24%{opacity:.6} 100%{opacity:0} }
+@media (prefers-reduced-motion: reduce) { .ambient-world { display: none; } }

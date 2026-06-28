@@ -4,10 +4,50 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>deepverse-app</title>
+    <meta
+      name="description"
+      content="DEEPVERSE — the cinematic portfolio of Deep Sharma, a Software Engineer & AI/Data Science developer. Projects, skills, achievements and an ATS-ready resume in a magical streaming-style experience."
+    />
+    <meta name="author" content="Deep Sharma" />
+    <meta name="keywords" content="Deep Sharma, Software Engineer, AI, Data Science, Machine Learning, AWS, Portfolio, BlindSide, Faridabad" />
+    <meta name="theme-color" content="#05060a" />
+    <link rel="canonical" href="https://deepverse.vercel.app/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="DEEPVERSE — Deep Sharma · Software Engineer & AI/Data Science" />
+    <meta property="og:description" content="A premium cinematic portfolio of code, AI and imagination by Deep Sharma." />
+    <meta property="og:image" content="/favicon.svg" />
+    <meta property="og:url" content="https://deepverse.vercel.app/" />
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="DEEPVERSE — Deep Sharma" />
+    <meta name="twitter:description" content="A premium cinematic software engineering portfolio." />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>DEEPVERSE — Deep Sharma · Software Engineer & AI/Data Science</title>
   </head>
   <body>
+    <canvas id="particles-canvas" aria-hidden="true"></canvas>
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Deep Sharma",
+        "jobTitle": "Software Engineer · AI & Data Science",
+        "address": { "@type": "PostalAddress", "addressLocality": "Faridabad", "addressCountry": "IN" },
+        "email": "mailto:deep21sv@gmail.com",
+        "url": "https://deepverse.vercel.app/",
+        "sameAs": ["https://github.com/deep-2105", "https://www.linkedin.com/in/deep-sharma-6275b4236"]
+      }
+    </script>
   </body>
 </html>
