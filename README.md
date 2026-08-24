@@ -1,24 +1,25 @@
 # DeepVerse
 
-A cinematic horror-inspired AI portfolio by Deep Sharma.
+A cinematic, horror-inspired developer portfolio by Deep Sharma, built to present projects and personal work as an immersive experience.
 
-## 🏆 Google Developer Achievement
+## Overview
+DeepVerse takes a portfolio beyond a traditional resume layout, combining cinematic visuals, motion, and modern web technologies for an interactive developer experience.
 
-[![Chrome DevTools User — Google Developer Program](https://img.shields.io/badge/Google%20Developer%20Program-Chrome%20DevTools%20User-4285F4?logo=googlechrome&logoColor=white)](https://me.developers.google.com/u/me)
+## Highlights
+- Cinematic portfolio experience
+- Immersive UI and animations
+- Project and developer showcase
+- Responsive modern interface
+- Motion-focused interactions
 
-**Chrome DevTools User** — Google Developer Program
+## Tech Stack
+React · Vite · GSAP · Three.js · Lenis · JavaScript
 
-[View my Google Developer Profile](https://me.developers.google.com/u/me) · [View the official badge](https://developers.google.com/profile/badges/activity/chrome-devtools/chrome-devtools-user)
-
-## 🚀 Project Setup
-
-DeepVerse is a Vite + React portfolio project focused on a cinematic, immersive developer experience.
-
-### Development
-
+## Development
 ```bash
 npm install
 npm run dev
 ```
 
-The project uses modern web technologies and is intended to be explored locally during development.
+## Purpose
+A personal portfolio and creative frontend project demonstrating UI/UX, animation, 3D web experiences, and modern React development.
