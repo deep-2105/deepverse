@@ -9,3 +9,16 @@ A cinematic horror-inspired AI portfolio by Deep Sharma.
 **Chrome DevTools User** — Google Developer Program
 
 [View my Google Developer Profile](https://me.developers.google.com/u/me) · [View the official badge](https://developers.google.com/profile/badges/activity/chrome-devtools/chrome-devtools-user)
+
+## 🚀 Project Setup
+
+DeepVerse is a Vite + React portfolio project focused on a cinematic, immersive developer experience.
+
+### Development
+
+```bash
+npm install
+npm run dev
+```
+
+The project uses modern web technologies and is intended to be explored locally during development.
