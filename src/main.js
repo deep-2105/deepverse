@@ -12,15 +12,14 @@ import Sidebar from "./components/Sidebar.js";
 import Navbar from "./components/Navbar.js";
 import Home from "./pages/Home.js";
 
-import { initParticles } from "./animations/particles.js";
 import { initSmoothScroll, initScrollReveals } from "./animations/scroll.js";
-import { initParallax } from "./animations/parallax.js";
 import { initIntro, playHeroIntro } from "./animations/intro.js";
-import { initCursor } from "./animations/cursor.js";
 import { initSound } from "./animations/sound.js";
-import { initAmbientWorld } from "./animations/ambient.js";
-import { initContactSpell } from "./animations/contactSpell.js";
+import { initCursor } from "./animations/cursor.js";
 import { initInteractions } from "./utils/interactions.js";
+import { initGithubDirectory } from "./components/GithubDirectory.js";
+import { initGithubHall } from "./components/GithubHall.js";
+import { initLumos } from "./components/Lumos.js";
 
 /* ---------- Render the application shell ---------- */
 const app = document.querySelector("#app");
@@ -30,29 +29,24 @@ app.innerHTML = `
   ${Navbar()}
   ${Home()}
 `;
+const hour = new Date().getHours();
+document.documentElement.dataset.time = hour >= 7 && hour < 19 ? "day" : "night";
 
 /* ---------- Boot sequence ---------- */
 function boot() {
-  // Ambient three.js particle field (degrades gracefully without WebGL)
-  try { initParticles("particles-canvas"); } catch (e) { console.warn(e); }
-
-  // Procedural flying silhouettes (wizards, owls, dragons, airships…)
-  try { initAmbientWorld(); } catch (e) { console.warn(e); }
-
-  // Smooth scrolling + scroll-driven reveals
+  // Native scrolling + one-shot scroll reveals
   const lenis = initSmoothScroll();
   initScrollReveals();
 
-  // Hero mouse parallax
-  initParallax();
-
   // Navigation, scroll-spy, episode arrows, form, etc.
   initInteractions(lenis);
+  initGithubDirectory(document.getElementById("github-directory"));
+  initGithubHall(document.querySelector("[data-github-hall]"));
+  initLumos(document.getElementById("lumos"));
 
-  // Premium FX: custom cursor, ambient sound, magical contact particles
-  initCursor();
+  // Dormant user-enabled sound; no cursor or background render loop at boot
   initSound();
-  initContactSpell(document.getElementById("contact-spell"));
+  initCursor();
 
   // Make sure ScrollTrigger measures the final layout
   ScrollTrigger.refresh();
@@ -71,3 +65,6 @@ if (document.readyState === "loading") {
 }
 
 window.addEventListener("load", () => ScrollTrigger.refresh());
+document.addEventListener("visibilitychange", () => {
+  document.body.classList.toggle("is-page-hidden", document.hidden);
+});

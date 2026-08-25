@@ -41,6 +41,11 @@ export default function Achievements() {
     </div>
     <div class="ach-grid">${cards}</div>
 
+    <div class="github-hall glass" data-github-hall>
+      <div><span class="eyebrow">Verified Public Data</span><h3>GitHub Achievement Hall</h3></div>
+      <div class="github-hall__stats"><span><b data-gh-repos>—</b>Public repos</span><span><b data-gh-stars>—</b>Stars</span><span><b data-gh-forks>—</b>Forks</span></div>
+    </div>
+
     <div class="section-head" style="margin-top:clamp(46px,7vw,84px)">
       <span class="eyebrow">The Sigils</span>
       <h2 class="section-title gold-text">Certifications</h2>

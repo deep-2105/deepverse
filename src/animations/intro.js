@@ -10,16 +10,31 @@ export function initIntro() {
     const intro = document.getElementById("intro");
     if (!intro) return resolve();
 
+    if (sessionStorage.getItem("deepverse-intro-seen") === "1") {
+      intro.remove();
+      document.body.style.overflow = "";
+      resolve();
+      return;
+    }
+
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const bar = document.getElementById("intro-bar");
     const count = document.getElementById("intro-count");
     const enter = document.getElementById("intro-enter");
     const enterBtn = intro.querySelector("[data-enter]");
+    const skipBtn = intro.querySelector("[data-skip]");
+    let introTimeline;
+    let progressTween;
+    let autoDismiss;
 
     let dismissed = false;
     const dismiss = () => {
       if (dismissed) return;
       dismissed = true;
+      introTimeline?.kill();
+      progressTween?.kill();
+      autoDismiss?.kill();
+      sessionStorage.setItem("deepverse-intro-seen", "1");
       const out = gsap.timeline({
         onComplete: () => {
           intro.classList.add("is-hidden");
@@ -46,13 +61,14 @@ export function initIntro() {
       });
       enter?.classList.add("is-ready");
       enterBtn?.addEventListener("click", dismiss);
+      skipBtn?.addEventListener("click", dismiss);
       // auto-dismiss quickly for reduced motion
-      gsap.delayedCall(0.8, dismiss);
+      autoDismiss = gsap.delayedCall(0.8, dismiss);
       return;
     }
 
-    const tl = gsap.timeline();
-    tl.to("#intro-moon", { opacity: 1, scale: 1, duration: 1.6, ease: "power3.out" }, 0.1)
+    introTimeline = gsap.timeline();
+    introTimeline.to("#intro-moon", { opacity: 1, scale: 1, duration: 1.6, ease: "power3.out" }, 0.1)
       .to("#intro-crest", { opacity: 1, duration: 1, ease: "power2.out" }, 0.5)
       .fromTo(
         "#intro-crest",
@@ -65,11 +81,13 @@ export function initIntro() {
         { opacity: 1, y: 0, rotateX: 0, duration: 0.9, ease: "back.out(1.6)", stagger: 0.05 },
         0.8
       )
+      .to(".intro__doors > div:first-child", { xPercent: -100, duration: 1.1, ease: "power3.inOut" }, 1.1)
+      .to(".intro__doors > div:last-child", { xPercent: 100, duration: 1.1, ease: "power3.inOut" }, 1.1)
       .to("#intro-tagline", { opacity: 1, duration: 0.9, ease: "power2.out" }, 1.6);
 
     // Fake loading progress
     const prog = { v: 0 };
-    gsap.to(prog, {
+    progressTween = gsap.to(prog, {
       v: 100,
       duration: 2.2,
       ease: "power1.inOut",
@@ -86,7 +104,7 @@ export function initIntro() {
 
     enterBtn?.addEventListener("click", dismiss);
     // Safety auto-enter after a beat so the page is never stuck
-    gsap.delayedCall(6, dismiss);
+    autoDismiss = gsap.delayedCall(4.8, dismiss);
   });
 }
 

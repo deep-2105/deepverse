@@ -47,36 +47,6 @@ function castleSVG() {
   </svg>`;
 }
 
-/** Raven silhouette with flapping wings. */
-function ravenSVG() {
-  return `
-  <svg viewBox="0 0 40 24" aria-hidden="true">
-    <g fill="currentColor">
-      <ellipse cx="20" cy="13" rx="6" ry="2.4"/>
-      <path class="wing" d="M20 13 Q10 2 2 6 Q12 9 20 13z"/>
-      <path class="wing" d="M20 13 Q30 2 38 6 Q28 9 20 13z"/>
-    </g>
-  </svg>`;
-}
-
-/** Flying rider on a broomstick silhouette. */
-function riderSVG() {
-  return `
-      <!-- broom -->
-      <path d="M8 44 L92 30" stroke="#1a1407" stroke-width="2.4" stroke-linecap="round"/>
-      <path d="M90 28 q14 -2 22 6 q-12 0 -22 -1z" fill="#3a2e10" stroke="none"/>
-      <g stroke="#5a4615" stroke-width="0.8">
-        <path d="M96 30 l16 2M96 32 l15 5M96 34 l14 8"/>
-      </g>
-      <!-- cloak + rider -->
-      <path d="M40 40 q6 -16 18 -16 q10 0 12 8 q-2 16 -16 22 q-12 2 -14 -14z" fill="#0a0c16"/>
-      <circle cx="56" cy="22" r="5" fill="#0c0e1a"/>
-      <!-- cloak tail flutter -->
-      <path d="M30 40 q-10 4 -20 14 q14 -2 24 -8z" fill="#0a0c16"/>
-    </g>
-  </svg>`;
-}
-
 export default function Hero() {
   const titleChars = profile.name
     .split("")
@@ -87,26 +57,12 @@ export default function Hero() {
     .map((s) => `<div><b>${s.value}</b><span>${s.label}</span></div>`)
     .join("");
 
-  // a flock of ravens crossing the moonlit sky
-  const ravens = [0, 1, 2, 3, 4]
-    .map(
-      (i) => `<div class="raven" style="top:${10 + i * 9}%;animation-duration:${16 + i * 4}s;animation-delay:${-i * 3}s;width:${22 + i * 5}px">${ravenSVG()}</div>`
-    )
-    .join("");
-
   return `
   <section class="hero" id="home">
     <div class="hero__stage">
       <div class="hero__layer" data-depth="0.12">
         <div class="moon__halo"></div>
         <div class="moon"></div>
-      </div>
-
-      <div class="hero__rays"></div>
-      <div class="ravens">${ravens}</div>
-
-      <div class="hero__layer" data-depth="0.05">
-        <div class="rider">${riderSVG()}</div>
       </div>
 
       <div class="hero__layer" data-depth="0.08">

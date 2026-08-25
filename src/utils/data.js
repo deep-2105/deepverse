@@ -6,7 +6,7 @@
 export const profile = {
   name: "DEEPVERSE",
   alias: "Deep Sharma",
-  role: "Software Engineer · AI & Data Science",
+  role: "BCA AI & Data Science Student | Software Engineer | AI & Full Stack Developer",
   tagline: "A Universe of Code & Imagination",  email: "deep21sv@gmail.com",
   phone: "+91 9650511019",
   location: "Faridabad, India",
@@ -42,6 +42,18 @@ export const projects = [
     duration: "Live",
     status: "Deployed",
     statsLine: [{ value: "Next.js", label: "Stack" }, { value: "Supabase", label: "Backend" }, { value: "Live", label: "Vercel" }],
+  },
+  {
+    name: "AttendX",
+    tag: "Attendance Management Web App",
+    desc: "A modern attendance management application with responsive UI, authentication and user flows, and Supabase-backed features.",
+    meta: ["React", "Vite", "JavaScript", "Supabase"],
+    poster: POSTERS[2],
+    github: "https://github.com/deep-2105/attendx",
+    demo: "https://attendx-puce.vercel.app",
+    duration: "Live",
+    status: "Deployed",
+    statsLine: [{ value: "React", label: "Frontend" }, { value: "Supabase", label: "Backend" }, { value: "Live", label: "Vercel" }],
   },
   {
     name: "IPL Win Probability Predictor",
@@ -108,7 +120,7 @@ export const projects = [
 export const education = [
   {
     time: "Undergraduate",
-    role: "BCA · AI & Data Science",
+    role: "Bachelor of Computer Applications (BCA) – Artificial Intelligence & Data Science",
     org: "K.R. Mangalam University",
     desc: "Bachelor of Computer Applications in Artificial Intelligence & Data Science — foundations in software engineering, DSA, OOP, databases, cloud and machine learning.",
   },
@@ -121,9 +133,9 @@ export const episodes = [
   { rank: "03", name: "Skills", tag: "The Spellbook", desc: "Programming, frontend, backend, ML, cloud, databases & tools.", duration: "5m", progress: 65, target: "skills", poster: POSTERS[2] },
   { rank: "04", name: "Experience", tag: "Chronicles", desc: "AWS Cloud Computing Internship at Ediglobe.", duration: "6m", progress: 50, target: "experience", poster: POSTERS[4] },
   { rank: "05", name: "Achievements", tag: "Hall of Honors", desc: "IBM, AWS, NASSCOM and problem-solving trophies.", duration: "3m", progress: 30, target: "achievements", poster: POSTERS[1] },
-  { rank: "06", name: "Certifications", tag: "The Sigils", desc: "IBM Big Data, NASSCOM Catalyst, AWS internship.", duration: "3m", progress: 25, target: "achievements", poster: POSTERS[0] },
-  { rank: "07", name: "Resume", tag: "The Scroll", desc: "ATS-ready and cinematic — download in one tap.", duration: "2m", progress: 10, target: "resume", poster: POSTERS[2] },
-  { rank: "08", name: "Contact", tag: "Final Act", desc: "Reach out for roles, collaborations and projects.", duration: "1m", progress: 0, target: "contact", poster: POSTERS[3] },
+  { rank: "06", name: "Resume", tag: "The Scroll", desc: "ATS-ready and cinematic — download in one tap.", duration: "2m", progress: 10, target: "resume", poster: POSTERS[2] },
+  { rank: "07", name: "Contact", tag: "Final Act", desc: "Reach out for roles, collaborations and projects.", duration: "1m", progress: 0, target: "contact", poster: POSTERS[3] },
+  { rank: "08", name: "Certifications", tag: "The Sigils", desc: "IBM Big Data, NASSCOM Catalyst, AWS internship.", duration: "3m", progress: 25, target: "achievements", poster: POSTERS[0] },
 ];
 
 export const skills = [

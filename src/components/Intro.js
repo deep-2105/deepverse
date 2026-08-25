@@ -15,6 +15,7 @@ export default function Intro() {
   <div class="intro" id="intro">
     <div class="intro__sky"></div>
     <div class="intro__moon" id="intro-moon"></div>
+    <div class="intro__doors" aria-hidden="true"><div></div><div></div></div>
 
     <div class="intro__content">
       <div class="intro__crest" id="intro-crest">${crest(96)}</div>
@@ -24,7 +25,8 @@ export default function Intro() {
       </div>
       <p class="intro__tagline" id="intro-tagline">${profile.tagline}</p>
       <div class="intro__enter" id="intro-enter">
-        <button class="btn btn--gold" data-enter>Enter the Verse</button>
+        <button class="btn btn--gold" data-enter>Enter the Archive</button>
+        <button class="intro__skip" data-skip type="button">Skip Intro</button>
       </div>
     </div>
 

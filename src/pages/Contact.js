@@ -17,8 +17,11 @@ export default function Contact() {
     .join("");
 
   return `
+  <aside class="lumos glass" id="lumos" aria-label="Lumos assistant">
+    <span class="eyebrow">Lumos</span><p data-lumos-output>Ask about Deep Sharma or the project archive.</p>
+    <form><input aria-label="Ask Lumos" placeholder="Ask Lumos" /><button class="btn btn--ghost" type="submit">Ask</button></form>
+  </aside>
   <section class="section contact" id="contact">
-    <canvas class="contact__spell" id="contact-spell" aria-hidden="true"></canvas>
     <div class="section-head">
       <span class="eyebrow">The Final Act</span>
       <h2 class="section-title gold-text">Summon Me</h2>
@@ -34,7 +37,7 @@ export default function Contact() {
       <form class="form glass reveal" id="contact-form" novalidate>
         <div>
           <label for="cf-name">Your Name</label>
-          <input id="cf-name" name="name" type="text" placeholder="Albus Dumbledore" required />
+          <input id="cf-name" name="name" type="text" placeholder="Your name" required />
         </div>
         <div>
           <label for="cf-email">Your Email</label>

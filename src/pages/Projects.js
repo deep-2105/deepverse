@@ -15,6 +15,15 @@ export default function Projects() {
       </p>
     </div>
 
+    <div class="github-directory" id="github-directory">
+      <div class="github-directory__head">
+        <div><span class="eyebrow">Public Archive</span><h3>GitHub Repository Directory</h3></div>
+        <span data-github-status>Loading public repositories...</span>
+      </div>
+      <label class="github-search"><span>Filter projects</span><input type="search" data-github-search placeholder="Name, language or topic" /></label>
+      <div class="github-directory__list" data-github-list><p class="github-empty">Loading public repositories...</p></div>
+    </div>
+
     ${EpisodeRow({ title: "Season One · The Portfolio", eyebrow: "Now Streaming", items: episodes })}
     ${EpisodeRow({ title: "Top Picks for You", eyebrow: "Featured", items: featured })}
     ${EpisodeRow({ title: "Continue Watching", eyebrow: "More to Explore", items: more })}

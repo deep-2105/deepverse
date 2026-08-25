@@ -6,6 +6,7 @@
  * first gesture per autoplay rules.
  */
 let SFX = null;
+const lastSfx = new Map();
 
 export function initSound() {
   const cluster = document.createElement("div");
@@ -23,36 +24,44 @@ export function initSound() {
   const fxBox = cluster.querySelector("[data-fx]");
   const vol = cluster.querySelector("[data-vol]");
 
-  let ctx, master, ambGain, sfxGain, on = false, shimmerTimer, windTimer;
-  let muted = true, ambOn = true, fxOn = true, level = 0.6;
+  let ctx, master, ambGain, sfxGain, on = false, shimmerTimer, windTimer, removeUiSounds = () => {};
+  const saved = (() => { try { return JSON.parse(localStorage.getItem("deepverse-sound")) || {}; } catch { return {}; } })();
+  let muted = true, ambOn = false, fxOn = saved.fxOn ?? true, level = saved.level ?? 0.6;
+  ambBox.checked = ambOn;
+  fxBox.checked = fxOn;
+  vol.value = Math.round(level * 100);
+
+  function savePreference() {
+    try { localStorage.setItem("deepverse-sound", JSON.stringify({ ambOn, fxOn, level, on })); } catch {}
+  }
 
   function build() {
     ctx = new (window.AudioContext || window.webkitAudioContext)();
     master = ctx.createGain(); master.gain.value = level; master.connect(ctx.destination);
     ambGain = ctx.createGain(); ambGain.gain.value = 0; ambGain.connect(master);
     sfxGain = ctx.createGain(); sfxGain.gain.value = 0.55; sfxGain.connect(master);
-    [55, 82.4, 110].forEach((f, i) => {
-      const osc = ctx.createOscillator(), g = ctx.createGain();
-      osc.type = i === 2 ? "triangle" : "sine"; osc.frequency.value = f; g.gain.value = 0.12;
-      osc.connect(g).connect(ambGain); osc.start();
-    });
     SFX = makeSfx(ctx, sfxGain, () => muted || !fxOn);
-    wireUiSounds(); SFX.startup();
+    removeUiSounds = wireUiSounds(); SFX.startup();
   }
-  function shimmer() { if (!on || !ambOn) return; const o=ctx.createOscillator(),g=ctx.createGain(); o.type="sine"; o.frequency.value=660+Math.random()*660; g.gain.value=0; o.connect(g).connect(ambGain); const t=ctx.currentTime; g.gain.linearRampToValueAtTime(.05,t+.4); g.gain.linearRampToValueAtTime(0,t+2.4); o.start(t); o.stop(t+2.5); shimmerTimer=setTimeout(shimmer,3000+Math.random()*4000); }
-  function wind() { if (!on || !ambOn || muted) return; SFX && SFX.wind(); windTimer = setTimeout(wind, 8000 + Math.random() * 12000); }
+  function shimmer() { if (!on || !ambOn) return; clearTimeout(shimmerTimer); const o=ctx.createOscillator(),g=ctx.createGain(); o.type="sine"; o.frequency.value=660+Math.random()*660; g.gain.value=0; o.connect(g).connect(ambGain); const t=ctx.currentTime; g.gain.linearRampToValueAtTime(.05,t+.4); g.gain.linearRampToValueAtTime(0,t+2.4); o.start(t); o.stop(t+2.5); shimmerTimer=setTimeout(shimmer,3000+Math.random()*4000); }
+  function wind() { if (!on || !ambOn || muted) return; clearTimeout(windTimer); SFX && SFX.wind(); windTimer = setTimeout(wind, 8000 + Math.random() * 12000); }
 
   btn.addEventListener("click", () => {
     if (!ctx) build(); if (ctx.state === "suspended") ctx.resume();
-    on = !on; muted = !on; btn.classList.toggle("is-on", on); cluster.classList.toggle("is-open", on);
+    on = !on; muted = !on; btn.classList.toggle("is-on", on); cluster.classList.toggle("is-open", on); savePreference();
     ambGain.gain.linearRampToValueAtTime(on && ambOn ? 0.5 : 0, ctx.currentTime + 1.0);
-    if (on) { shimmer(); wind(); } else { clearTimeout(shimmerTimer); clearTimeout(windTimer); }
+    if (!on) { clearTimeout(shimmerTimer); clearTimeout(windTimer); }
   });
-  ambBox.addEventListener("change", () => { ambOn = ambBox.checked; if (ctx) ambGain.gain.linearRampToValueAtTime(on && ambOn ? 0.5 : 0, ctx.currentTime + .5); if (ambOn && on) { shimmer(); wind(); } });
-  fxBox.addEventListener("change", () => { fxOn = fxBox.checked; });
-  vol.addEventListener("input", () => { level = vol.value / 100; if (ctx) master.gain.linearRampToValueAtTime(level, ctx.currentTime + .1); });
+  ambBox.disabled = true;
+  ambBox.addEventListener("change", () => { ambOn = false; ambBox.checked = false; savePreference(); });
+  fxBox.addEventListener("change", () => { fxOn = fxBox.checked; savePreference(); });
+  vol.addEventListener("input", () => { level = vol.value / 100; savePreference(); if (ctx) master.gain.linearRampToValueAtTime(level, ctx.currentTime + .1); });
 
-  return () => { clearTimeout(shimmerTimer); clearTimeout(windTimer); };
+  return () => {
+    clearTimeout(shimmerTimer); clearTimeout(windTimer); removeUiSounds();
+    if (ctx && ctx.state !== "closed") ctx.close();
+    SFX = null;
+  };
 }
 
 function makeSfx(ctx, bus, isMuted) {
@@ -84,12 +93,26 @@ function makeSfx(ctx, bus, isMuted) {
   };
 }
 
-export function sfx(name, pan = 0) { try { SFX && SFX[name] && SFX[name](pan); } catch {} }
+export function sfx(name, pan = 0) {
+  try {
+    if (!SFX || !SFX[name]) return;
+    const now = performance.now();
+    if (now - (lastSfx.get(name) || 0) < 120) return;
+    lastSfx.set(name, now);
+    SFX[name](pan);
+  } catch {}
+}
 
 function wireUiSounds() {
+  const removers = [];
+  const add = (el, type, handler) => {
+    el.addEventListener(type, handler, { passive: type === "pointerenter" });
+    removers.push(() => el.removeEventListener(type, handler));
+  };
   document.querySelectorAll(".btn, .nav-link, .ecard, .eprow__nav button").forEach((el) => {
-    el.addEventListener("pointerenter", () => sfx("hover"), { passive: true }); el.addEventListener("click", () => sfx("click"));
+    add(el, "pointerenter", () => sfx("hover")); add(el, "click", () => sfx("click"));
   });
-  document.querySelectorAll("[data-resume]").forEach((b) => b.addEventListener("click", () => sfx("download")));
-  document.querySelectorAll(".ecard[data-nav]").forEach((c) => c.addEventListener("click", () => sfx("portal")));
+  document.querySelectorAll("[data-resume]").forEach((b) => add(b, "click", () => sfx("download")));
+  document.querySelectorAll(".ecard[data-nav]").forEach((c) => add(c, "click", () => sfx("portal")));
+  return () => removers.forEach((remove) => remove());
 }

@@ -1,4 +1,3 @@
-import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -9,21 +8,7 @@ gsap.registerPlugin(ScrollTrigger);
  * Returns the Lenis instance so callers can scrollTo() anchors.
  */
 export function initSmoothScroll() {
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  const lenis = new Lenis({
-    duration: 1.15,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    smoothWheel: !reduce,
-    wheelMultiplier: 1,
-    touchMultiplier: 1.4,
-  });
-
-  lenis.on("scroll", ScrollTrigger.update);
-  gsap.ticker.add((time) => lenis.raf(time * 1000));
-  gsap.ticker.lagSmoothing(0);
-
-  return lenis;
+  return null;
 }
 
 /**
@@ -75,22 +60,4 @@ export function initScrollReveals() {
     });
   });
 
-  // Parallax drift on the hero stage as you scroll away
-  const stage = document.querySelector(".hero__stage");
-  if (stage) {
-    gsap.to(stage, {
-      yPercent: 18,
-      ease: "none",
-      scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true },
-    });
-  }
-  const heroContent = document.querySelector(".hero__content");
-  if (heroContent) {
-    gsap.to(heroContent, {
-      yPercent: 40,
-      opacity: 0,
-      ease: "none",
-      scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true },
-    });
-  }
 }

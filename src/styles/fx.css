@@ -4,9 +4,9 @@
    ============================================================ */
 
 /* ---------- Custom cursor ---------- */
-@media (hover: hover) and (pointer: fine) {
-  body { cursor: none; }
-  a, button, .ecard, input, textarea, [data-nav] { cursor: none; }
+@media (hover: hover) and (pointer: fine) and (min-width: 769px) {
+  body.has-custom-cursor { cursor: none; }
+  body.has-custom-cursor a, body.has-custom-cursor button, body.has-custom-cursor .ecard, body.has-custom-cursor input, body.has-custom-cursor textarea, body.has-custom-cursor [data-nav] { cursor: none; }
 
   .cursor {
     position: fixed;
@@ -15,7 +15,7 @@
     border-radius: 50%;
     background: var(--gold-200);
     box-shadow: 0 0 12px var(--gold-glow);
-    transform: translate(-50%, -50%);
+    transform: translate3d(-50%, -50%, 0);
     pointer-events: none;
     z-index: 99999;
     mix-blend-mode: screen;
@@ -26,7 +26,7 @@
     width: 40px; height: 40px;
     border: 1px solid rgba(229, 181, 74, 0.6);
     border-radius: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate3d(-50%, -50%, 0);
     pointer-events: none;
     z-index: 99998;
     transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease, opacity 0.25s ease;
@@ -50,7 +50,7 @@
   filter: blur(6px);
   mix-blend-mode: screen;
   opacity: 0.7;
-  animation: ray-sway 14s ease-in-out infinite alternate;
+  animation: none;
 }
 @keyframes ray-sway { from { transform: rotate(-3deg) scale(1.05); } to { transform: rotate(3deg) scale(1.1); } }
 
@@ -62,7 +62,7 @@
   color: #05060a;
   opacity: 0.9;
   filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));
-  animation: raven-fly linear infinite;
+  animation: none;
 }
 .raven svg { width: 100%; display: block; }
 .raven .wing { transform-origin: 50% 50%; animation: flap 0.5s ease-in-out infinite; }
@@ -88,7 +88,7 @@
 .sound-toggle .bars { display: flex; align-items: flex-end; gap: 3px; height: 18px; }
 .sound-toggle .bars i {
   width: 3px; height: 6px; background: var(--gold-200); border-radius: 2px;
-  animation: eq 0.9s ease-in-out infinite; animation-play-state: paused;
+  animation: none;
 }
 .sound-toggle .bars i:nth-child(2){ animation-delay: .15s } .sound-toggle .bars i:nth-child(3){ animation-delay: .3s } .sound-toggle .bars i:nth-child(4){ animation-delay: .45s }
 .sound-toggle.is-on .bars i { animation-play-state: running; }
@@ -103,7 +103,24 @@
 .sound-panel .sp-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 12px; color: var(--gold-200); letter-spacing: .04em; }
 .sound-panel input[type=range] { width: 90px; accent-color: var(--gold-300); }
 .sound-panel input[type=checkbox] { accent-color: var(--gold-300); }
+.spell-flash { position: fixed; left: 50%; top: 50%; z-index: 8000; color: var(--gold-200); pointer-events: none; font-size: 1.4rem; transform: translate(-50%, -50%) scale(.4); opacity: 0; animation: spellFlash .5s ease-out forwards; }
+@keyframes spellFlash { 0% { opacity: 0; transform: translate(-50%, -50%) scale(.4); } 35% { opacity: 1; transform: translate(-50%, -50%) scale(1); } 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.35); } }
 @media (max-width: 880px) { .sound-cluster { bottom: 90px; } }
+
+@media (max-width: 700px) {
+  .hero__rays { filter: none; opacity: 0.55; }
+  .fog--1 { filter: blur(8px); }
+  .fog--2 { filter: blur(12px); }
+  .fog--3 { filter: blur(16px); }
+  .aw { filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.42)); }
+  .aw--lantern, .aw--butterfly, .aw--phoenix, .aw--rider, .aw--spirit, .aw--rune, .aw--fish { filter: drop-shadow(0 0 8px currentColor); }
+}
+
+@media (max-width: 768px), (pointer: coarse) {
+  body.has-custom-cursor { cursor: auto; }
+  body.has-custom-cursor a, body.has-custom-cursor button, body.has-custom-cursor .ecard, body.has-custom-cursor input, body.has-custom-cursor textarea, body.has-custom-cursor [data-nav] { cursor: auto; }
+  .cursor, .cursor-ring { display: none; }
+}
 
 /* ---------- Contact magical canvas ---------- */
 .contact { position: relative; }
@@ -127,7 +144,12 @@
   pointer-events: none;
   overflow: hidden;
 }
-.aw-layer { position: absolute; inset: 0; will-change: transform; }
+body.is-page-hidden .ambient-world,
+body.is-page-hidden .hero__rays,
+body.is-page-hidden .fog,
+body.is-page-hidden .rider,
+body.is-page-hidden .castle-window { animation-play-state: paused; }
+.aw-layer { position: absolute; inset: 0; }
 .aw-bg { z-index: -1; filter: blur(1px); }      /* far: behind content */
 .aw-mid { z-index: 0; }                          /* between content */
 .aw-fg { z-index: 6; }                           /* close to camera */
@@ -136,7 +158,6 @@
   color: rgba(8, 11, 22, 0.78);
   filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.5));
   opacity: 0;
-  will-change: transform, opacity;
 }
 .aw svg { width: 100%; height: auto; }
 .aw--owl, .aw--book, .aw--raven, .aw--deer, .aw--traveller, .aw--train { color: rgba(6, 9, 18, 0.72); }

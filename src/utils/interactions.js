@@ -3,6 +3,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { navItems } from "./data.js";
 import { generateResume, atsScore } from "./resume.js";
 
+
 /**
  * Wires up all interactive behaviour:
  * smooth anchor navigation, scroll-spy active states,
@@ -14,20 +15,32 @@ export function initInteractions(lenis) {
   episodeRowArrows();
   stickyTopbar();
   contactForm();
-  cardTilt();
   episodeNav(lenis);
   resumeButtons();
 }
 
 function episodeNav(lenis) {
   document.querySelectorAll(".ecard[data-nav]").forEach((card) => {
-    card.addEventListener("click", () => {
-      const target = document.getElementById(card.dataset.nav);
-      if (!target) return;
-      if (lenis) lenis.scrollTo(target, { offset: -10, duration: 1.2 });
-      else target.scrollIntoView({ behavior: "smooth" });
+    const navigate = () => navigateTo(card.dataset.nav, lenis);
+    card.addEventListener("click", navigate);
+    card.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") { event.preventDefault(); navigate(); }
     });
   });
+}
+
+function navigateTo(id, lenis) {
+  const target = document.getElementById(id);
+  if (!target) return;
+  document.body.style.overflow = "";
+  setActive(id);
+  history.replaceState(null, "", `#${id}`);
+  const rune = document.createElement("span");
+  rune.className = "spell-flash";
+  rune.textContent = "✦";
+  document.body.appendChild(rune);
+  window.setTimeout(() => rune.remove(), 500);
+  document.documentElement.scrollTop = Math.max(0, target.offsetTop - 10);
 }
 
 function resumeButtons() {
@@ -61,8 +74,7 @@ function smoothAnchors(lenis) {
       const target = document.querySelector(id);
       if (!target) return;
       e.preventDefault();
-      if (lenis) lenis.scrollTo(target, { offset: -10, duration: 1.2 });
-      else target.scrollIntoView({ behavior: "smooth" });
+      navigateTo(id.slice(1), lenis);
     });
   });
 }
@@ -105,26 +117,6 @@ function stickyTopbar() {
     start: "top -80",
     end: 99999,
     onUpdate: (self) => topbar.classList.toggle("is-stuck", self.scroll() > 80),
-  });
-}
-
-function cardTilt() {
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduce) return;
-  document.querySelectorAll(".ecard").forEach((card) => {
-    const setX = gsap.quickTo(card, "rotationY", { duration: 0.5, ease: "power2.out" });
-    const setY = gsap.quickTo(card, "rotationX", { duration: 0.5, ease: "power2.out" });
-    card.addEventListener("pointermove", (e) => {
-      const r = card.getBoundingClientRect();
-      const px = (e.clientX - r.left) / r.width - 0.5;
-      const py = (e.clientY - r.top) / r.height - 0.5;
-      setX(px * 10);
-      setY(-py * 10);
-    });
-    card.addEventListener("pointerleave", () => {
-      setX(0);
-      setY(0);
-    });
   });
 }
 

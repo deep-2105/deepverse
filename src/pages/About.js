@@ -21,7 +21,8 @@ export default function About() {
   <section class="section about" id="about">
     <div class="about__grid">
       <div class="about__portrait reveal">
-        <div class="about__sigil">${crest(220)}</div>
+        <img class="about__photo" src="/images/profile.png" alt="Deep Sharma" loading="lazy" decoding="async" onerror="this.hidden=true;this.nextElementSibling.classList.add('is-visible')" />
+        <div class="about__photo-fallback" aria-hidden="true"><div class="about__sigil">${crest(220)}</div></div>
       </div>
       <div class="about__copy">
         <div class="section-head">

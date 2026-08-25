@@ -56,18 +56,20 @@
 html {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  scroll-behavior: auto; /* Lenis controls scroll */
+  scroll-behavior: auto;
+  overflow-x: clip;
 }
 
 body {
   font-family: var(--font-body);
   background: var(--bg-void);
   color: var(--ink);
-  overflow-x: hidden;
+  overflow-x: clip;
   line-height: 1.5;
   letter-spacing: 0.2px;
   min-height: 100vh;
 }
+html[data-time="day"] body::before { filter: brightness(1.12); }
 
 /* Persistent cosmic backdrop */
 body::before {
@@ -98,21 +100,12 @@ body::after {
   background-repeat: repeat;
   background-size: 600px 600px;
   opacity: 0.55;
-  animation: twinkle 9s ease-in-out infinite;
+  animation: none;
 }
 
 @keyframes twinkle {
   0%, 100% { opacity: 0.4; }
   50% { opacity: 0.7; }
-}
-
-#particles-canvas {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
 }
 
 /* ---------- Typography ---------- */
