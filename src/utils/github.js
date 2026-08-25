@@ -1,6 +1,6 @@
 import { projects as localProjects } from "./data.js";
 
-const CACHE_KEY = "deepverse-github-repositories-v1";
+const CACHE_KEY = "deepverse-github-repositories-v2";
 const USERNAME = "deep-2105";
 
 function localFallback() {
@@ -44,7 +44,13 @@ export async function fetchGithubRepositories() {
       headers: { Accept: "application/vnd.github+json" },
     });
     if (!response.ok) throw new Error(`GitHub request failed: ${response.status}`);
-    const items = (await response.json()).filter((repo) => !repo.fork).map(normalize);
+    const seen = new Set();
+    const items = (await response.json()).map(normalize).filter((repo) => {
+      const key = repo.name.trim().toLowerCase();
+      if (!key || seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
     try { localStorage.setItem(CACHE_KEY, JSON.stringify({ time: Date.now(), items })); } catch {}
     return items.length ? items : localFallback();
   } catch {

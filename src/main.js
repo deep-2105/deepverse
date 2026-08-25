@@ -20,6 +20,7 @@ import { initInteractions } from "./utils/interactions.js";
 import { initGithubDirectory } from "./components/GithubDirectory.js";
 import { initGithubHall } from "./components/GithubHall.js";
 import { initLumos } from "./components/Lumos.js";
+import { initAtmosphere } from "./animations/atmosphere.js";
 
 /* ---------- Render the application shell ---------- */
 const app = document.querySelector("#app");
@@ -47,6 +48,7 @@ function boot() {
   // Dormant user-enabled sound; no cursor or background render loop at boot
   initSound();
   initCursor();
+  initAtmosphere();
 
   // Make sure ScrollTrigger measures the final layout
   ScrollTrigger.refresh();

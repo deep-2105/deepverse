@@ -105,6 +105,15 @@
 .sound-panel input[type=checkbox] { accent-color: var(--gold-300); }
 .spell-flash { position: fixed; left: 50%; top: 50%; z-index: 8000; color: var(--gold-200); pointer-events: none; font-size: 1.4rem; transform: translate(-50%, -50%) scale(.4); opacity: 0; animation: spellFlash .5s ease-out forwards; }
 @keyframes spellFlash { 0% { opacity: 0; transform: translate(-50%, -50%) scale(.4); } 35% { opacity: 1; transform: translate(-50%, -50%) scale(1); } 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.35); } }
+.light-atmosphere { position: fixed; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
+.light-traveler { position: absolute; left: -24vw; width: clamp(150px, 17vw, 260px); color: rgba(8, 10, 18, .86); filter: drop-shadow(0 8px 16px rgba(0,0,0,.5)); animation: lightFlight var(--flight-duration) linear forwards; }
+.light-traveler svg { display: block; width: 100%; height: auto; }
+.light-traveler.is-reversed { left: auto; right: -24vw; transform: scaleX(-1); animation-name: lightFlightReverse; }
+@keyframes lightFlight { from { transform: translate3d(0, 0, 0) rotate(-3deg); opacity: 0; } 10%, 82% { opacity: .9; } to { transform: translate3d(150vw, var(--flight-offset), 0) rotate(3deg); opacity: 0; } }
+@keyframes lightFlightReverse { from { transform: translate3d(0, 0, 0) scaleX(-1) rotate(3deg); opacity: 0; } 10%, 82% { opacity: .9; } to { transform: translate3d(-150vw, var(--flight-offset), 0) scaleX(-1) rotate(-3deg); opacity: 0; } }
+.light-atmosphere.is-storm::after { content: ""; position: absolute; inset: 0; background: rgba(180, 210, 255, .16); opacity: 0; animation: stormFlash .26s ease-out forwards; }
+@keyframes stormFlash { 15% { opacity: .7; } 28% { opacity: .08; } 44% { opacity: .35; } to { opacity: 0; } }
+@media (max-width: 768px), (pointer: coarse), (prefers-reduced-motion: reduce) { .light-atmosphere { display: none; } }
 @media (max-width: 880px) { .sound-cluster { bottom: 90px; } }
 
 @media (max-width: 700px) {

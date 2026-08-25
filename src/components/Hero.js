@@ -64,6 +64,8 @@ export default function Hero() {
         <div class="moon__halo"></div>
         <div class="moon"></div>
       </div>
+      <div class="hero__lantern hero__lantern--one" aria-hidden="true"><i></i></div>
+      <div class="hero__lantern hero__lantern--two" aria-hidden="true"><i></i></div>
 
       <div class="hero__layer" data-depth="0.08">
         <div class="hero__hills"></div>

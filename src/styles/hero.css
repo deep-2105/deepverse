@@ -16,6 +16,11 @@
     radial-gradient(80% 60% at 50% 18%, rgba(28, 36, 70, 0.55), transparent 70%),
     linear-gradient(180deg, #060812 0%, #0a0d1c 45%, #05060c 100%);
 }
+.hero__lantern { position: absolute; width: 24px; height: 38px; border: 2px solid rgba(229,181,74,.5); border-radius: 7px 7px 10px 10px; background: linear-gradient(90deg, rgba(30,22,10,.9), rgba(246,210,122,.8), rgba(30,22,10,.9)); box-shadow: 0 0 18px rgba(229,181,74,.35); opacity: .72; }
+.hero__lantern::before { content: ""; position: absolute; left: 5px; right: 5px; top: -9px; height: 10px; border: 1px solid rgba(229,181,74,.5); border-bottom: 0; border-radius: 50% 50% 0 0; }
+.hero__lantern i { position: absolute; inset: 9px 7px; background: rgba(255,239,176,.82); border-radius: 50%; box-shadow: 0 0 12px rgba(255,216,110,.8); }
+.hero__lantern--one { top: 32%; right: 31%; transform: rotate(-4deg); }
+.hero__lantern--two { top: 50%; left: 43%; transform: rotate(5deg) scale(.72); opacity: .45; }
 
 /* Parallax stage — JS translates layers */
 .hero__stage {
