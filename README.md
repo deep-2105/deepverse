@@ -25,5 +25,5 @@ npm run dev
 A personal portfolio and creative frontend project demonstrating UI/UX, animation, 3D web experiences, and modern React development.
 
 
-## Responsive Design
-The interface is intended to work across desktop, tablet, and mobile viewports. Page-level horizontal overflow is contained while project rows and other intentionally scrollable areas retain their own interaction.
+## Performance
+Visual effects are progressively enhanced so the core portfolio remains usable when advanced graphics capabilities are unavailable. Animation work is kept scoped and cleaned up when no longer needed, with reduced visual workload on smaller devices.
