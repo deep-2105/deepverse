@@ -25,5 +25,5 @@ npm run dev
 A personal portfolio and creative frontend project demonstrating UI/UX, animation, 3D web experiences, and modern React development.
 
 
-## Performance
-Visual effects are progressively enhanced so the core portfolio remains usable when advanced graphics capabilities are unavailable. Animation work is kept scoped and cleaned up when no longer needed, with reduced visual workload on smaller devices.
+## GitHub Integration
+DeepVerse includes a GitHub-focused project area for presenting public repositories and developer activity. Repository links are intended to lead visitors directly to the corresponding GitHub projects rather than using placeholder project data.
