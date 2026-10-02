@@ -25,5 +25,5 @@ npm run dev
 A personal portfolio and creative frontend project demonstrating UI/UX, animation, 3D web experiences, and modern React development.
 
 
-## GitHub Integration
-DeepVerse includes a GitHub-focused project area for presenting public repositories and developer activity. Repository links are intended to lead visitors directly to the corresponding GitHub projects rather than using placeholder project data.
+## Resume & Deployment
+The portfolio includes a dedicated resume experience alongside the interactive portfolio sections. The project can be developed locally with Vite and deployed through Vercel, while GitHub remains the source repository for version control and collaboration.
