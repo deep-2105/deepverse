@@ -25,5 +25,5 @@ npm run dev
 A personal portfolio and creative frontend project demonstrating UI/UX, animation, 3D web experiences, and modern React development.
 
 
-## Project Goals
-DeepVerse is designed as a personal engineering portfolio that combines professional information with an immersive visual presentation. The portfolio keeps project, education, skills, achievement, resume, and contact information accessible through dedicated sections.
+## Responsive Design
+The interface is intended to work across desktop, tablet, and mobile viewports. Page-level horizontal overflow is contained while project rows and other intentionally scrollable areas retain their own interaction.
