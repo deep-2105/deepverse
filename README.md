@@ -39,3 +39,7 @@ DeepVerse presents projects through a dedicated interactive portfolio experience
 
 ## Education Profile
 The portfolio represents Deep Sharma as a BCA (AI & Data Science) student at K.R. Mangalam University.
+
+
+## Mobile Experience
+Responsive behavior is treated as a first-class requirement so the portfolio remains usable on narrow screens as well as desktop displays.
