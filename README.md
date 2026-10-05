@@ -43,3 +43,7 @@ The portfolio represents Deep Sharma as a BCA (AI & Data Science) student at K.R
 
 ## Mobile Experience
 Responsive behavior is treated as a first-class requirement so the portfolio remains usable on narrow screens as well as desktop displays.
+
+
+## Visual Experience
+The visual direction combines cinematic typography, atmospheric backgrounds, interactive navigation, and restrained motion while preserving access to the underlying portfolio content.
