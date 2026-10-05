@@ -31,3 +31,7 @@ The portfolio includes a dedicated resume experience alongside the interactive p
 
 ## Accessibility & Interaction
 DeepVerse prioritizes clear navigation, visible section controls, responsive layouts, and graceful fallbacks for environments where advanced visual effects are unavailable.
+
+
+## Project Presentation
+DeepVerse presents projects through a dedicated interactive portfolio experience while keeping repository destinations accessible for technical review.
