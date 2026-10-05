@@ -35,3 +35,7 @@ DeepVerse prioritizes clear navigation, visible section controls, responsive lay
 
 ## Project Presentation
 DeepVerse presents projects through a dedicated interactive portfolio experience while keeping repository destinations accessible for technical review.
+
+
+## Education Profile
+The portfolio represents Deep Sharma as a BCA (AI & Data Science) student at K.R. Mangalam University.
