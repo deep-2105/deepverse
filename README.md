@@ -47,3 +47,7 @@ Responsive behavior is treated as a first-class requirement so the portfolio rem
 
 ## Visual Experience
 The visual direction combines cinematic typography, atmospheric backgrounds, interactive navigation, and restrained motion while preserving access to the underlying portfolio content.
+
+
+## Collaboration
+The GitHub repository provides the version-controlled source for continued improvements, review, and collaboration on the DeepVerse portfolio.
