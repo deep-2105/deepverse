@@ -1,6 +1,6 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { navItems } from "./data.js";
+import { navItems, profile } from "./data.js";
 import { generateResume, atsScore } from "./resume.js";
 
 
@@ -141,11 +141,17 @@ function contactForm() {
       return;
     }
 
+    const subject = encodeURIComponent(`Portfolio enquiry from ${name}`);
+    const body = encodeURIComponent(`Name: ${name}\nReply email: ${email}\n\n${message}`);
+    const mailto = `mailto:${profile.email}?subject=${subject}&body=${body}`;
+
     if (note) {
-      note.textContent = `Owl dispatched, ${name}. I'll reply to ${email} shortly.`;
+      note.textContent = "Your email app is opening with this message ready to send.";
       note.style.color = "var(--gold-200)";
     }
-    form.reset();
+
+    // A mailto link opens the visitor's email client; it does not send automatically.
+    window.location.href = mailto;
     gsap.fromTo(
       form.querySelector("button"),
       { scale: 0.96 },
