@@ -64,10 +64,12 @@ export function initGithubDirectory(root) {
 
   list.addEventListener("click", openCard);
   list.addEventListener("keydown", (event) => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      openCard(event);
-    }
+    // Let repository and demo anchors keep their native keyboard behavior.
+    if (event.target.closest("a")) return;
+    if (event.key !== "Enter" && event.key !== " ") return;
+    if (!event.target.closest("[data-repo-url]")) return;
+    event.preventDefault();
+    openCard(event);
   });
   input.addEventListener("input", render);
 
