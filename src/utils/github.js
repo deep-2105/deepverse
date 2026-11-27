@@ -68,9 +68,13 @@ async function fetchRepositoryPages() {
 export async function fetchGithubRepositories() {
   try {
     const cached = JSON.parse(localStorage.getItem(CACHE_KEY));
-    if (Array.isArray(cached?.items) && Date.now() - cached.time < 86400000) {
-      return cached.items;
-    }
+    const cacheAge = Date.now() - Number(cached?.time);
+    const validCache = Array.isArray(cached?.items)
+      && Number.isFinite(cacheAge)
+      && cacheAge >= 0
+      && cacheAge < 86400000
+      && cached.items.every((repo) => repo && typeof repo.name === "string" && typeof repo.url === "string");
+    if (validCache) return cached.items;
   } catch {}
 
   try {
