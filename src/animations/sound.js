@@ -26,7 +26,7 @@ export function initSound() {
 
   let ctx, master, ambGain, sfxGain, on = false, shimmerTimer, windTimer, removeUiSounds = () => {};
   const saved = (() => { try { return JSON.parse(localStorage.getItem("deepverse-sound")) || {}; } catch { return {}; } })();
-  let muted = true, ambOn = false, fxOn = saved.fxOn ?? true, level = saved.level ?? 0.6;
+  let muted = true, ambOn = saved.ambOn ?? false, fxOn = saved.fxOn ?? true, level = saved.level ?? 0.6;
   ambBox.checked = ambOn;
   fxBox.checked = fxOn;
   vol.value = Math.round(level * 100);
@@ -50,10 +50,29 @@ export function initSound() {
     if (!ctx) build(); if (ctx.state === "suspended") ctx.resume();
     on = !on; muted = !on; btn.classList.toggle("is-on", on); cluster.classList.toggle("is-open", on); savePreference();
     ambGain.gain.linearRampToValueAtTime(on && ambOn ? 0.5 : 0, ctx.currentTime + 1.0);
-    if (!on) { clearTimeout(shimmerTimer); clearTimeout(windTimer); }
+    if (on && ambOn) {
+      shimmer();
+      wind();
+    } else {
+      clearTimeout(shimmerTimer);
+      clearTimeout(windTimer);
+    }
   });
-  ambBox.disabled = true;
-  ambBox.addEventListener("change", () => { ambOn = false; ambBox.checked = false; savePreference(); });
+  ambBox.disabled = false;
+  ambBox.addEventListener("change", () => {
+    ambOn = ambBox.checked;
+    savePreference();
+    if (!ctx || !on) return;
+    ambGain.gain.cancelScheduledValues(ctx.currentTime);
+    ambGain.gain.linearRampToValueAtTime(ambOn ? 0.5 : 0, ctx.currentTime + 0.8);
+    if (ambOn) {
+      shimmer();
+      wind();
+    } else {
+      clearTimeout(shimmerTimer);
+      clearTimeout(windTimer);
+    }
+  });
   fxBox.addEventListener("change", () => { fxOn = fxBox.checked; savePreference(); });
   vol.addEventListener("input", () => { level = vol.value / 100; savePreference(); if (ctx) master.gain.linearRampToValueAtTime(level, ctx.currentTime + .1); });
 
