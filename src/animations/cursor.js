@@ -18,8 +18,14 @@ export function initCursor() {
       ring.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
     });
   };
-  const over = (event) => { if (event.target.closest("a,button,.ecard,input,textarea,[data-nav]")) ring.classList.add("is-hot"); };
-  const out = (event) => { if (event.target.closest("a,button,.ecard,input,textarea,[data-nav]")) ring.classList.remove("is-hot"); };
+  const interactiveSelector = "a,button,.ecard,input,textarea,[data-nav]";
+  const over = (event) => {
+    if (event.target.closest(interactiveSelector)) ring.classList.add("is-hot");
+  };
+  const out = (event) => {
+    if (event.relatedTarget?.closest?.(interactiveSelector)) return;
+    ring.classList.remove("is-hot");
+  };
   window.addEventListener("pointermove", move, { passive: true });
   document.addEventListener("pointerover", over, { passive: true });
   document.addEventListener("pointerout", out, { passive: true });
