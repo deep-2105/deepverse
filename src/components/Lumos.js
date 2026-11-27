@@ -17,5 +17,17 @@ export function initLumos(root) {
   const form = root.querySelector("form");
   const input = root.querySelector("input");
   const output = root.querySelector("[data-lumos-output]");
-  form.addEventListener("submit", (event) => { event.preventDefault(); output.textContent = answer(input.value); input.value = ""; });
+  if (!form || !input || !output) return;
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const question = input.value.trim();
+    if (!question) {
+      output.textContent = "Type a question about Deep Sharma or the project archive.";
+      input.focus();
+      return;
+    }
+    output.textContent = answer(question);
+    input.value = "";
+  });
 }
