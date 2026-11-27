@@ -291,3 +291,11 @@ main {
   :root { --sidebar-w: 0px; }
   main { padding-left: 0; padding-bottom: 78px; }
 }
+
+/* Keep glass effects lightweight on touch devices. */
+@media (max-width: 768px), (pointer: coarse) {
+  .glass {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
